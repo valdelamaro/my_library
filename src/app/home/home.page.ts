@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { MenuController, ModalController, NavController } from '@ionic/angular';
+import { LibraryService } from '../services/library.service';
+import { BooksModalPage } from '../books-modal/books-modal.page';
 
 @Component({
   selector: 'app-home',
@@ -6,41 +9,57 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  authors: any;
+  booksOff: any;
 
-  books = [
-    {
-      title: "El Principito",
-      img: "../../assets/img/book1.jpg",
-      description: "El principito es una novela corta y la obra más famosa del escritor y aviador francés Antoine de Saint-Exupéry.​",
-      gender: 'literatura infantil'
-    },
-    {
-      title: "Don Quijote",
-      img: "../../assets/img/book2.jpg",
-      description: "Don Quijote de la Mancha​ es una novela escrita por el español Miguel de Cervantes Saavedra",
-      gender: 'Parodía, Satira'
-    },
-    {
-      title: "El Arte de la guerra",
-      img: "../../assets/img/book3.jpg",
-      description: "Es un libro sobre tácticas y estrategias militares, escrito por Sun Tzu, un famoso estratega militar chino.",
-      gender: 'Tratado, Biografia'
-    },
-    {
-      title: "IT",
-      img: "../../assets/img/book4.jpg",
-      description: "It es una novela de terror publicada en 1986 por el escritor estadounidense Stephen King.",
-      gender: 'Terror, Thriller, Fantasía oscura'
-    },
-    {
-      title: "Harry Potter",
-      img: "../../assets/img/book5.jpg",
-      description: "El día de su cumpleaños, Harry Potter descubre que es hijo de dos conocidos hechiceros, de los que ha heredado poderes mágicos",
-      gender: 'literatura infantil, literatura fantastica'
-    },
-    
-  ]
-  
-  constructor() {}
+  slideOps = {
+    initialSlide: 1,
+    slidesPerView: 3,
+    centeredSlides: true,
+    speed: 400
+  }
+  constructor(
+    private libraryService: LibraryService,
+    private modalController: ModalController,
+    private navCtrl: NavController,
+    private menu: MenuController
+    ) {}
+
+  ionViewDidEnter(){
+
+    // this.libraryService.getAuthors().then( res => {
+    //   this.authors = res;
+    // })
+
+    // this.booksOff = this.libraryService.getBooksOffline();
+    console.log(this.booksOff.books);
+  }
+
+  async showBooks(author:any) {
+    const modal = await this.modalController.create({
+      component: BooksModalPage,
+      componentProps: {
+        author: author
+      }
+    });
+    return await modal.present();
+  }
+
+  goToAuthors(){
+    this.navCtrl.navigateForward("/menu/authors");
+    this.menu.close();
+  }
+
+  goToBooks(){
+    this.navCtrl.navigateForward("/menu/books");
+    this.menu.close();
+  }
+
+  goToMyFavorites(){
+    this.navCtrl.navigateForward("/menu/favorite-books");
+    this.menu.close();
+  }
 
 }
+  
+ 

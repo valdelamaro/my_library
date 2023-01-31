@@ -7,7 +7,7 @@ const routes: Routes = [
   
   {
     path: '',
-    redirectTo: 'intro',
+    redirectTo: 'menu/home',
     pathMatch: 'full'
   },
   {
@@ -16,20 +16,45 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule),canActivate:[IntroGuard]
   },
   {
     path: 'register',
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
   },
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    path: 'menu',
+    loadChildren: () => import('./menu/menu.module').then( m => m.MenuPageModule), canActivate: [LoginGuard]
   },
   {
-    path: 'menu',
-    loadChildren: () => import('./menu/menu.module').then( m => m.MenuPageModule)
+    path: 'books-modal',
+    loadChildren: () => import('./books-modal/books-modal.module').then( m => m.BooksModalPageModule)
   },
+  {
+    path: 'books',
+    loadChildren: () => import('./books/books.module').then( m => m.BooksPageModule)
+  },
+  {
+    path: 'authors',
+    loadChildren: () => import('./authors/authors.module').then( m => m.AuthorsPageModule)
+  },
+  {
+    path: 'favorite-books',
+    loadChildren: () => import('./favorite-books/favorite-books.module').then( m => m.FavoriteBooksPageModule)
+  },
+  {
+    path: 'topbooks',
+    loadChildren: () => import('./topbooks/topbooks.module').then( m => m.TopbooksPageModule)
+  },
+  {
+    path: 'authors-detail-modal',
+    loadChildren: () => import('./authors-detail-modal/authors-detail-modal.module').then( m => m.AuthorsDetailModalPageModule)
+  },
+  {
+    path: 'books-detail-modal',
+    loadChildren: () => import('./books-detail-modal/books-detail-modal.module').then( m => m.BooksDetailModalPageModule)
+  },
+
 ];
 
 @NgModule({
